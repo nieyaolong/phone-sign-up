@@ -1,0 +1,9 @@
+{
+  "SMS":{
+    "url":"https://app.cloopen.com:8883/2013-12-26",
+    "sid":"your_sid",
+    "appid":"your_app_id",
+    "token":"your_token",
+    "template":"your_template_id"
+  }
+}

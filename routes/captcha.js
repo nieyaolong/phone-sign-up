@@ -1,10 +1,11 @@
-var express = require('express');
-var svgCaptcha = require('svg-captcha');
+"use strict";
+const express = require('express');
+const svgCaptcha = require('svg-captcha');
 
-var router = express.Router();
+let router = express.Router();
 
 router.get('/', function (req, res) {
-    var captcha = svgCaptcha.create();
+    let captcha = svgCaptcha.create({ignoreChars: '0oO1iIl'});
     req.session.captcha = captcha.text;
 
     res.set('Content-Type', 'image/svg+xml');
