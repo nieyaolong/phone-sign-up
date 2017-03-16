@@ -57,6 +57,10 @@ function genAuthAndSig(sid, token) {
 
 //短信发送接口
 function sendSMSYunTongXunAsync(phone, content) {
+
+    // console.error(`phone: ${phone}, content: ${content[0]}`);
+    // return Promise.resolve();
+
     let sid = Settings.SMS.sid;
     let appId = Settings.SMS.appid;
     let token = Settings.SMS.token;
@@ -109,7 +113,8 @@ router.post('/', function (req, res) {
     if (target && captcha && target.toLowerCase() === captcha.toLowerCase()) {
         let phone = req.body.phone;
         let code = codeGen();
-        req.session.sms = code;
+        req.session.code = code;
+        req.session.phone = phone;
         sendSMSYunTongXunAsync(phone, [code,'10分钟'])
             .then(() => {
                 res.status(200).send("OK");

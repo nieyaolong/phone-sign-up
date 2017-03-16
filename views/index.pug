@@ -3,11 +3,20 @@ extends layout
 block content
     h1= title
     div
+        p Name:
+            input#name(type="text")
+    div
         p Phone Number:
             input#phone(type="text")
     div
         embed#svg(src="/captcha/")
         input#captcha(type="text")
     div
+        p SMS code:
+        input#code(type="text", disabled=true)
         input.send(type="button", value="send sms")
-        p#sms_result
+    div
+        br
+        input.sign-up(type="button", value="sign up")
+    div
+        p#result
