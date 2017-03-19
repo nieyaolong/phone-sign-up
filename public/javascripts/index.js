@@ -1,5 +1,5 @@
 function warnNote(obj, text) {
-    obj.parent("p").find('span').css({"color":" #ff0000", "font-size" : "1rem"}).text(text);
+    obj.parent("p").find('span').css({"color": " #ff0000", "font-size": "1rem"}).text(text);
     obj.addClass("empty-warning");
 }
 
@@ -45,10 +45,9 @@ $(function () {
         }).on("blur", function () {
             var phoneNum = userPhone.val();
 
-            if(!!phoneNum && !phoneRegx.test(phoneNum))
-            {
+            if (!!phoneNum && !phoneRegx.test(phoneNum)) {
                 warnNote(userPhone, "格式错误")
-            }else{
+            } else {
                 $(this).parent("p").find("span").css("color", "#c0c0c4").text("(必填)")
             }
         })
@@ -58,22 +57,21 @@ $(function () {
     changeImgCode.on("click", function () {
         //发送获取验证码请求
         $.ajax({
-            url: "",
+            url: "/captcha",
             data: "",
-            dataType: "xml",
+            dataType: "text",
             type: "get",
-            cache: false,
-            success: function (data) {
-                //获取成功
-                svgCode.attr("src", data.url);
-                msgValidateBtn.parent("p").css("display", "block");
-            },
-            error: function () {
+            cache: false
+        }).done(function (data) {
+            //获取成功
+            svgCode.html(data);
+            msgValidateBtn.parent("p").css("display", "block");
+        }) .fail(function ( data, textStatus, error) {
                 //获取失败
+                console.error(error);
                 $(this).text("重新获取");
                 msgValidateBtn.parent("p").css("display", "none");
-            }
-        })
+            });
     });
 
     //通知发送短信验证码
@@ -84,7 +82,7 @@ $(function () {
         var phoneNum = userPhone.val();
 
         if (!!phoneNum) {
-            if(phoneRegx.test(phoneNum)) {
+            if (phoneRegx.test(phoneNum)) {
                 //开始计时
                 startClock(_this, timer, seconds);
 
@@ -104,7 +102,7 @@ $(function () {
                         _this.text("重新获取");
                     }
                 })
-            }else{
+            } else {
                 warnNote(userPhone, "*格式错误")
             }
         } else {
@@ -146,7 +144,10 @@ $(function () {
                 },
                 error: function (error) {
                     //失败时
-                    $(".error-warn").css({"display": "inline-block", "transition":"display 0.5s ease-out"}).text(error.message)
+                    $(".error-warn").css({
+                        "display": "inline-block",
+                        "transition": "display 0.5s ease-out"
+                    }).text(error.message)
                 }
             });
         } else {
@@ -160,7 +161,7 @@ $(function () {
         $("#fix-screen").css("visibility", "hidden")
     })
     //点击完成
-    finished.on("click", function(){
+    finished.on("click", function () {
         $("#fix-screen").css("visibility", "hidden");
         $(".center-content > p").each(function () {
             $(this).find("input[type='text']").val("");

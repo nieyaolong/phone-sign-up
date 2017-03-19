@@ -32,7 +32,7 @@ block content
                     .img-validate
                         input#img-validate-code(type="text", name="validate-code", placeholder="请输入验证码")
                         |
-                        embed#svg-code(src="")
+                        object#svg-code(data="/captcha")
                     |
                     span
                         a#change-img-code.change-img-code(href="javascript:void(0);") 换一张
