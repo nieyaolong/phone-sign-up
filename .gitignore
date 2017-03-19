@@ -50,3 +50,4 @@ jspm_packages
 
 .idea
 /setting.json
+/db.sqlite
