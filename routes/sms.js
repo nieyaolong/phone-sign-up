@@ -58,8 +58,8 @@ function genAuthAndSig(sid, token) {
 //短信发送接口
 function sendSMSYunTongXunAsync(phone, content) {
 
-    // console.error(`phone: ${phone}, content: ${content[0]}`);
-    // return Promise.resolve();
+    console.error(`phone: ${phone}, content: ${content[0]}`);
+    return Promise.resolve();
 
     let sid = Settings.SMS.sid;
     let appId = Settings.SMS.appid;

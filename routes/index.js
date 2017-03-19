@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     let captcha = svgCaptcha.create();
     req.session.captcha = captcha.text;
 
-    res.render('index', { title: 'Phone Sign up', captcha: captcha.data});
+    res.render('index', {captcha: captcha.data});
 });
 
 function signUpAsync(info) {

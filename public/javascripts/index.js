@@ -4,22 +4,22 @@ function warnNote(obj, text) {
 }
 
 //时钟
-function startClock(_this, timer, seconds) {
+function startClock(_this, seconds) {
     _this.attr("disabled", "true");
     _this.val(seconds + 's');
 
-    clearInterval(timer);
-    timer = setInterval(function () {
+    var _timer = setInterval(function () {
         seconds--;
         if (seconds > 0) {
             _this.val(seconds + 's');
         }
         else {
-            clearInterval(timer);
+            clearInterval(_timer);
             _this.val("重新发送");
             _this.removeAttr("disabled");
         }
     }, 1000);
+    return _timer;
 }
 
 $(function () {
@@ -31,6 +31,7 @@ $(function () {
     var svgCode = $("#svg-code");
     var changeImgCode = $("#change-img-code");
     var msgValidateBtn = $("#msg-validate-btn");
+    var msgValidateInput = $("#msg-validate");
     var submit = $("#submit");
     var finished = $(".finish-btn");
     var closeWin = $(".close");
@@ -66,40 +67,49 @@ $(function () {
             //获取成功
             svgCode.html(data);
             msgValidateBtn.parent("p").css("display", "block");
-        }) .fail(function ( data, textStatus, error) {
-                //获取失败
-                console.error(error);
-                $(this).text("重新获取");
-                msgValidateBtn.parent("p").css("display", "none");
-            });
+        }).fail(function (data, textStatus, error) {
+            //获取失败
+            console.error(error);
+            $(this).text("重新获取");
+            msgValidateBtn.parent("p").css("display", "none");
+        });
     });
 
     //通知发送短信验证码
     msgValidateBtn.on("click", function () {
         var _this = $(this);
-        var seconds = 49;
+        var seconds = 60;
         var timer = null;
         var phoneNum = userPhone.val();
 
         if (!!phoneNum) {
             if (phoneRegx.test(phoneNum)) {
                 //开始计时
-                startClock(_this, timer, seconds);
+                clearInterval(timer);
+                timer = startClock(_this, seconds);
 
                 $.ajax({
-                    url: "",
-                    data: "",
-                    dataType: "xml",
-                    type: "get",
+                    url: "/sms",
+                    data: {"phone": phoneNum,"captcha": imgValidateCode.val()},
+                    dataType: "text",
+                    type: "post",
                     cache: false,
                     timeout: seconds + 1,
                     success: function (data) {
-                        _this.text("发送成功");
+                        _this.val("发送成功");
                         console.log("success")
                     },
-                    error: function () {
-                        //获取失败
-                        _this.text("重新获取");
+                    error: function (data, status, error) {
+                        clearInterval(timer);
+                        _this.removeAttr("disabled");
+                        if(data.status === 401) {
+                            _this.val("验证码不正确");
+                            changeImgCode.click();
+                        } else {
+                            //获取失败
+                            console.error(data,status, error);
+                            _this.val("重新获取");
+                        }
                     }
                 })
             } else {
@@ -112,42 +122,30 @@ $(function () {
 
     //提交
     submit.on("click", function () {
-        if (!!userName.val() || !!userPhone.val()) {
-            var name = userName.val();
-            var msgCode = userPhone.val();
-            var major = major.val();
-            var score = score.val();
-
+        if (!!userName.val() || !!userPhone.val() || !!msgValidateInput.val()) {
             //发送数据到后台
             $.ajax({
                 url: "",
                 data: {
-                    name: name,
-                    phone: phone,
-                    code: msgCode,
-                    major: major,
-                    score: score
+                    name: userName.val(),
+                    phone: userPhone.val(),
+                    code: msgValidateInput.val(),
+                    major: major.val(),
+                    score: score.val()
                 },
                 dataType: "text",
                 type: "post",
                 cache: false,
                 success: function (data) {
-                    //验证输入的验证码与短信验证码是否一致
-                    if ($("#msg-validate").val() == "") {
-                        //弹出注册成功提示窗口
-                        $("#fix-screen").css("visibility", "visible");
-                    }
-                    else {
-                        $("#time-out-warn").css("display", "inline-block");
-                        msgValidateBtn.val("重新获取");
-                    }
+                    //弹出注册成功提示窗口
+                    $("#fix-screen").css("visibility", "visible");
                 },
-                error: function (error) {
+                error: function (data, status, error) {
                     //失败时
                     $(".error-warn").css({
                         "display": "inline-block",
                         "transition": "display 0.5s ease-out"
-                    }).text(error.message)
+                    }).text(data.status === 400 ? "短信验证码错误" : error)
                 }
             });
         } else {
