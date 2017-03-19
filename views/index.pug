@@ -1,22 +1,70 @@
 extends layout
 
 block content
-    h1= title
-    div
-        p Name:
-            input#name(type="text")
-    div
-        p Phone Number:
-            input#phone(type="text")
-    div
-        embed#svg(src="/captcha/")
-        input#captcha(type="text")
-    div
-        p SMS code:
-        input#code(type="text", disabled=true)
-        input.send(type="button", value="send sms")
-    div
-        br
-        input.sign-up(type="button", value="sign up")
-    div
-        p#result
+    .page-wrapper
+        .top-banner
+            .title
+                p 北航软件学院
+                |
+                p 研究生复试调剂信息平台
+        |
+        .center-section
+            img(src="images/phone/phone-icon.png")
+            |
+            form.center-content(action="", method="post")
+                p.form-item
+                    label(for="username") 姓名：
+                    |
+                    input#username(type="text", name="username")
+                    |
+                    span.note (必填)
+                |
+                p.form-item
+                    label(for="userphone") 电话：
+                    |
+                    input#userphone(type="text", name="userphone", maxlength="11")
+                    |
+                    span#phone-validate.note (必填)
+                |
+                .form-item
+                    label(for="img-validate-code") 验证码：
+                    |
+                    .img-validate
+                        input#img-validate-code(type="text", name="validate-code", placeholder="请输入验证码")
+                        |
+                        embed#svg-code(src="")
+                    |
+                    span
+                        a#change-img-code.change-img-code(href="javascript:void(0);") 换一张
+                    |
+                    p.form-item(style="margin-bottom: 0")
+                        label
+                        |
+                        input#msg-validate(type="text", name="username", placeholder="请填写短信验证码")
+                        |
+                        span
+                            input#msg-validate-btn(type="button", value="发送")
+                |
+                p.form-item
+                    label(for="major") 专业：
+                    |
+                    input#major(type="text", name="major")
+                |
+                p.form-item(style="margin-bottom: 0")
+                    label(for="score") 分数：
+                    |
+                    input#score(type="text", name="score", placeholder="总分")
+                |
+                span#time-out-warn(style="display: none; color: red; margin-left: 32%; transform: translateX(-50%)") *验证码错误或已过期, 请重新获取
+                |
+                p.form-item.form-finish(style="margin-top: 49px")
+                    input#submit(type="button", name="submit-button", value="完成注册")
+                |
+                p.error-warn
+        |
+        .bottom-phone-img
+    #fix-screen.fix-screen
+        .finish-note
+            input.close(type="button", name="close", value="X")
+            |
+            input.finish-btn(type="button", name="finish", value="完成")
