@@ -142,7 +142,7 @@ $(function () {
                 },
                 error: function (data, status, error) {
                     //失败时
-                    $("#time-out-warn).css("display", "inline-block")
+                    $("#time-out-warn").css("display", "inline-block")
                 }
             });
         } else {
