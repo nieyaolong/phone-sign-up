@@ -6,7 +6,6 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     var size = req.query.size ? req.query.size : 30;
-    console.error(size);
     var captcha = svgCaptcha.create({ignoreChars: '0oO1iIl', fontSize:size,  width:size * 2, height:size});
     req.session.captcha = captcha.text;
 
