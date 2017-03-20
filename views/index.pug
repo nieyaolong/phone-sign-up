@@ -29,10 +29,9 @@ block content
                 .form-item
                     label(for="img-validate-code") 验证码：
                     |
-                    .img-validate
-                        input#img-validate-code(type="text", name="validate-code", placeholder="请输入验证码")
-                        |
-                        object#svg-code(data="/captcha")
+                    input#img-validate-code.img-validate(type="text", name="validate-code", placeholder="请输入验证码")
+                    |
+                    object#svg-code(data="/captcha")
                     |
                     span
                         a#change-img-code.change-img-code(href="javascript:void(0);") 换一张
