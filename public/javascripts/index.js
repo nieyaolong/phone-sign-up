@@ -96,7 +96,6 @@ $(function () {
                     cache: false,
                     timeout: 5000,
                     success: function (data) {
-                         clearInterval(timer);
                         console.log("success")
                     },
                     error: function (data, status, error) {
