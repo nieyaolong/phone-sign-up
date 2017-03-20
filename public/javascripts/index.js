@@ -59,7 +59,7 @@ $(function () {
         //发送获取验证码请求
         $.ajax({
             url: "/captcha",
-            data: "",
+            data: "size=" +  imgValidateCode.height(),
             dataType: "text",
             type: "get",
             cache: false
@@ -165,4 +165,6 @@ $(function () {
             $(this).find("input[type='text']").val("");
         })
     })
+
+    changeImgCode.click();
 })
