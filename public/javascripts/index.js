@@ -97,14 +97,13 @@ $(function () {
                     timeout: 5000,
                     success: function (data) {
                          clearInterval(timer);
-                        _this.val("发送成功");
                         console.log("success")
                     },
                     error: function (data, status, error) {
                         clearInterval(timer);
                         _this.removeAttr("disabled");
                         if(data.status === 401) {
-                            _this.val("验证码不正确");
+                            _this.val("验证码错误");
                             changeImgCode.click();
                         } else {
                             //获取失败
