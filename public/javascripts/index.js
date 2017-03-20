@@ -78,7 +78,7 @@ $(function () {
     //通知发送短信验证码
     msgValidateBtn.on("click", function () {
         var _this = $(this);
-        var seconds = 60;
+        var seconds = 59;
         var timer = null;
         var phoneNum = userPhone.val();
 
@@ -142,10 +142,7 @@ $(function () {
                 },
                 error: function (data, status, error) {
                     //失败时
-                    $(".error-warn").css({
-                        "display": "inline-block",
-                        "transition": "display 0.5s ease-out"
-                    }).text(data.status === 400 ? "短信验证码错误" : error)
+                    $("#time-out-warn).css("display", "inline-block")
                 }
             });
         } else {
