@@ -94,7 +94,7 @@ $(function () {
                     dataType: "text",
                     type: "post",
                     cache: false,
-                    timeout: seconds + 1,
+                    timeout: 5000,
                     success: function (data) {
                         _this.val("发送成功");
                         console.log("success")
