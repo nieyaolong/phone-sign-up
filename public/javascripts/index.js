@@ -96,6 +96,7 @@ $(function () {
                     cache: false,
                     timeout: 5000,
                     success: function (data) {
+                         clearInterval(timer);
                         _this.val("发送成功");
                         console.log("success")
                     },
